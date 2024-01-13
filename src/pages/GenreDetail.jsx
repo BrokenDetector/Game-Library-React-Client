@@ -73,6 +73,11 @@ function GenreDetails() {
                                             Delete
                                         </button>
                                     </Link>
+                                    <Link to={`/report?prevPage=${location.pathname}`}>
+                                        <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600">
+                                            Report this item
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

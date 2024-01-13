@@ -15,6 +15,7 @@ This is the frontend React client for a Game Library Application. It allows user
 - Browse list of all game, developers and genres
 - View individual developer or genre details including list of games
 - Add, edit and delete games, developers and genre
+- Users can now report issues or inappropriate content related to games, developers, and genres. These reports are sent to a Telegram bot for swift review and action.
 - Validation on forms
 - Unit testing for components using React Testing Library and Vitest
 

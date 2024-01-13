@@ -14,6 +14,7 @@ import GenreForm from "../pages/GenreForm";
 import Genres from "../pages/Genres";
 import Home from "../pages/Home";
 import Search from "../pages/Search";
+import ReportForm from '../pages/Report'
 
 function Main() {
     return (
@@ -21,6 +22,7 @@ function Main() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/search/:search" element={<Search />} />
+                <Route path="/report" element={<ReportForm/>}/>
 
                 <Route path="/games" element={<Items />} />
                 <Route path="/game/create" element={<GameForm />} />
