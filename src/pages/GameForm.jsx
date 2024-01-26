@@ -10,12 +10,10 @@ function ItemForm() {
     const [game, setGame] = useState("");
     const [developers, setDevelopers] = useState([]);
     const [genres, setGenres] = useState([]);
-    const [gameDeveloper, setGameDeveloper] = useState("");
-    const [gameGenre, setGameGenre] = useState("");
 
     const [title, setTitle] = useState("");
-    const [dev, setDev] = useState("");
     const [genre, setGenre] = useState("");
+    const [developer, setDeveloper] = useState("");
     const [description, setDescription] = useState("");
 
     const [errors, setErrors] = useState([]);
@@ -24,13 +22,14 @@ function ItemForm() {
 
     const navigate = useNavigate();
 
+    const [code, setCode] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`https://game-library-api-gsub.onrender.com/api/game/${url}`);
                 const data = await response.json();
                 document.title = data.title;
-
                 if (data.message === "Game not found") {
                     setLoading(false);
                     setNotFound(true);
@@ -40,13 +39,11 @@ function ItemForm() {
                 if (data.game) {
                     setGame(data.game);
                     setTitle(data.game.title);
+                    setGenre(data.game.genre);
+                    setDeveloper(data.game.developer);
                     setDescription(data.game.description);
                 }
 
-                setGameDeveloper(data.developer);
-                setGameGenre(data.genre);
-                setDev(data.developer);
-                setGenre(data.genre);
                 setDevelopers(data.allDevelopers);
                 setGenres(data.allGenres);
 
@@ -66,10 +63,12 @@ function ItemForm() {
         const formData = new FormData();
 
         formData.append("title", title);
-        formData.append("dev", dev ? dev._id : "");
+        formData.append("dev", developer ? developer._id : "");
         formData.append("genre", genre ? genre._id : "");
         formData.append("description", description);
         formData.append("image", e.target.elements.image.files.length > 0 ? e.target.elements.image.files[0] : game.imageUrl);
+        formData.append("code", code);
+
         fetch(`https://game-library-api-gsub.onrender.com/api/game/${url}`, {
             method: "POST",
             body: formData,
@@ -139,7 +138,7 @@ function ItemForm() {
                                                 e.preventDefault();
                                                 // Find the selected developer object from the array
                                                 const selectedDeveloper = developers.find((dev) => dev._id == e.target.value);
-                                                setDev(selectedDeveloper);
+                                                setDeveloper(selectedDeveloper);
                                             }}
                                         >
                                             {developers.map((dev) => (
@@ -147,11 +146,7 @@ function ItemForm() {
                                                     key={dev._id}
                                                     value={dev._id}
                                                     selected={
-                                                        gameDeveloper
-                                                            ? gameDeveloper._id.toString() == dev._id
-                                                                ? "selected"
-                                                                : false
-                                                            : false
+                                                        game ? (game.developer._id.toString() == dev._id ? "selected" : false) : false
                                                     }
                                                 >
                                                     {dev.name}
@@ -175,7 +170,7 @@ function ItemForm() {
                                             <option
                                                 key={genre._id}
                                                 value={genre._id}
-                                                selected={gameGenre ? (gameGenre._id.toString() == genre._id ? "selected" : false) : false}
+                                                selected={game ? (game.genre._id.toString() == game.genre._id ? "selected" : false) : false}
                                             >
                                                 {genre.name}
                                             </option>
@@ -206,7 +201,14 @@ function ItemForm() {
                                             <div></div>
                                         )}
                                     </>
-                                    <div className="flex py-4">
+
+                                    <div className="flex py-4 flex-col">
+                                        <h1>Enter the code</h1>
+                                        <input
+                                            className=" p-2 border border-gray-400 rounded-md mb-4 focus:outline-none focus:border-blue-500 text-black"
+                                            placeholder="Code"
+                                            onChange={(e) => setCode(e.target.value)}
+                                        />
                                         <button
                                             type="submit"
                                             className="h-14 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400"

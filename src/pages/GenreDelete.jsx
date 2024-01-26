@@ -9,6 +9,8 @@ function GenreDelete() {
     const [genre, setGenre] = useState("");
     const [games, setGames] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [code, setCode] = useState("");
+    const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
 
@@ -34,11 +36,17 @@ function GenreDelete() {
         fetch(`https://game-library-api-gsub.onrender.com/api/genre/${url}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newGenre),
+            body: JSON.stringify({ newGenre, code }),
         })
             .then((res) => res.json())
-            .then(() => {
-                navigate("/genres");
+            .then((data) => {
+                if (data.message) {
+                    setErrors((prev) => {
+                        return [...prev, data.message];
+                    });
+                } else {
+                    navigate("/genres");
+                }
             })
             .catch((error) => console.error(error));
     };
@@ -78,17 +86,36 @@ function GenreDelete() {
                         <div>
                             <p>Are you sure you want to delete this genre?</p>
 
-                            <div className="flex justify-end mt-6">
+                            <div className="flex flex-col gap-3 justify-end mt-6">
+                                <h1>Enter the code</h1>
+                                <input
+                                    className=" p-2 border border-gray-400 rounded-md mb-4 focus:outline-none focus:border-blue-500 text-black"
+                                    placeholder="Code"
+                                    onChange={(e) => setCode(e.target.value)}
+                                />
+                                {errors.length != 0 ? (
+                                    <div className=" -ml-2 bg-red-i00" role="errors">
+                                        {errors.map((error) => {
+                                            return (
+                                                <p key={uuid()} className="p-4 bg-red-500">
+                                                    {error}
+                                                </p>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <div></div>
+                                )}
                                 <button
-                                    className="mr-4 h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600"
+                                    className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600"
                                     onClick={handleDelete}
                                 >
-                                    Delete genre
+                                    Delete Genre
                                 </button>
 
                                 <button
                                     className="h-14 px-6 py-2 font-semibold rounded-xl bg-gray-600 hover:bg-gray-500 active:bg-gray-400"
-                                    onClick={() => navigate(`/genre/${genre.name}`)}
+                                    onClick={() => navigate(`/genre/${genre.title}`)}
                                 >
                                     Cancel
                                 </button>

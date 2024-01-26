@@ -62,22 +62,25 @@ function DeveloperDetail() {
                                 ) : (
                                     <h1 className="text-3xl mt-5 ml-5">No Games</h1>
                                 )}
-                                <div className="md:flex-1 mt-10 px-4 flex gap-6">
-                                    <Link to={`/developer/${dev.name}/update`}>
-                                        <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-green-700 hover:bg-green-600 active:bg-green-500">
-                                            Update
-                                        </button>
-                                    </Link>
-                                    <Link to={`/developer/${dev.name}/delete`}>
-                                        <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600">
-                                            Delete
-                                        </button>
-                                    </Link>
-                                    <Link to={`/report?prevPage=${location.pathname}`}>
-                                        <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600">
-                                            Report this item
-                                        </button>
-                                    </Link>
+                                <div className="flex flex-col ml-5">
+                                    <h1>you will need to enter a code to update or delete this item</h1>
+                                    <div className="md:flex-1 mt-10 px-4 flex gap-6">
+                                        <Link to={`/developer/${dev.name}/update`}>
+                                            <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-green-700 hover:bg-green-600 active:bg-green-500">
+                                                Update
+                                            </button>
+                                        </Link>
+                                        <Link to={`/developer/${dev.name}/delete`}>
+                                            <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600">
+                                                Delete
+                                            </button>
+                                        </Link>
+                                        <Link to={`/report?prevPage=${location.pathname}`}>
+                                            <button className="h-14 px-6 py-2 font-semibold rounded-xl bg-red-800 hover:bg-red-700 active:bg-red-600">
+                                                Report this item
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

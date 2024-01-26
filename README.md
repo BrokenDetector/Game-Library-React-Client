@@ -20,3 +20,5 @@ This is the frontend React client for a Game Library Application. It allows user
 - Unit testing for components using React Testing Library and Vitest
 
 ## Link to my API: <https://github.com/BrokenDetector/Game-Library-API/>
+
+### Code for update, create, and delete operations: 2024

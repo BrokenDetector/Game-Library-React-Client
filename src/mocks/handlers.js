@@ -96,9 +96,7 @@ const handlers = [
     http.get("https://game-library-api-gsub.onrender.com/api/game/minecraft", () => {
         return HttpResponse.json({
             title: "Game",
-            game: { title: "minecraft" },
-            developer: { name: "Mojang" },
-            genre: { name: "Sandbox" },
+            game: { title: "minecraft", developer: { name: "Mojang" }, genre: { name: "Sandbox" } },
         });
     }),
 
@@ -111,10 +109,8 @@ const handlers = [
 
     http.get("https://game-library-api-gsub.onrender.com/api/game/minecraft/update", () => {
         return HttpResponse.json({
-            game: {
-                title: "minecraft",
-                descriptin: "",
-            },
+            game: { title: "minecraft", developer: { name: "mojang", _id: "5" }, genre: { name: "sandbox", _id: "4" } },
+
             title: "Update Game",
             allDevelopers: [
                 { name: "Ubisoft Montreal", _id: "1" },

@@ -13,6 +13,8 @@ function GenreForm() {
 
     const navigate = useNavigate();
 
+    const [code, setCode] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch(`https://game-library-api-gsub.onrender.com/api/genre/${url}`);
@@ -35,19 +37,16 @@ function GenreForm() {
         e.preventDefault();
         setErrors([]);
 
-        const genre = {
-            name: e.target.elements.name.value.trim(),
-        };
         fetch(`https://game-library-api-gsub.onrender.com/api/genre/${url}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(genre),
+            body: JSON.stringify({ name: e.target.elements.name.value.trim(), code }),
         })
             .then((res) => res.json())
             .then((newGenre) => {
-                if (newGenre.error) {
+                if (newGenre.error || newGenre.message) {
                     setErrors((prev) => {
-                        return [...prev, newGenre.error];
+                        return [...prev, newGenre.error, newGenre.message];
                     });
                 } else if (newGenre[0]) {
                     setErrors((prev) => {
@@ -91,7 +90,13 @@ function GenreForm() {
                                     <div></div>
                                 )}
                             </>
-                            <div className="flex py-4">
+                            <div className="flex py-4 flex-col">
+                                <h1>Enter the code</h1>
+                                <input
+                                    className=" p-2 border border-gray-400 rounded-md mb-4 focus:outline-none focus:border-blue-500 text-black"
+                                    placeholder="Code"
+                                    onChange={(e) => setCode(e.target.value)}
+                                />
                                 <button
                                     type="submit"
                                     className="h-14 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400"
